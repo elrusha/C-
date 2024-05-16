@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Language Translator</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-7">
+
+                <div class="container">
+                    <div class="card-header text-center">
+                        <h4>TRANSLATE-TULU</h4>
+                    </div>
+                    <div class="container">
+
+                        <form action="" method="GET">
+                            <div class="text-input">
+                                <div class="col-md-8">
+                                    <input type="text" name="english" value="<?php if(isset($_GET['english'])){echo $_GET['english'];} ?>" class="form-control">
+                                </div>
+                                <div class="col-md-4">
+                                    <button type="submit" class="btn btn-primary">Translate</button>
+                                </div>
+                            </div>
+                        </form>
+
+                        <div>
+                            <div>
+                                <hr>
+                                <?php 
+                                    $con = mysqli_connect("localhost","root","","translate");
+
+                                    if(isset($_GET['english']))
+                                    {
+                                        $english = $_GET['english'];
+
+                                        $query = "SELECT * FROM tulu WHERE english='$english' ";
+                                        $query_run = mysqli_query($con, $query);
+
+                                        if(mysqli_num_rows($query_run) > 0)
+                                        {
+                                            foreach($query_run as $row)
+                                            {
+                                                ?>
+                                                <div>
+                                                    <input type="text" value="<?= $row['tulu']; ?>" class="form-control">
+                                                </div>
+                                                <?php
+                                            }
+                                        }
+                                        else
+                                        {
+                                            echo "No Record Found";
+                                        }
+                                    }
+                                   
+                                ?>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
